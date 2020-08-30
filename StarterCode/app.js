@@ -1,7 +1,7 @@
 // Create a function for plotting the Data
 function getPlot(id) {
     // Retrieve data from the 'samples.json' file
-    d3.json("data/samples.json").then((data)=> {
+    d3.json("Data/samples.json").then((data)=> {
         console.log(data);
         
         // Map data from 'wfreq' section and upload to the console
@@ -22,13 +22,13 @@ function getPlot(id) {
         // Move the otu id's to the desired form of the plot
         var OTU_id = OTU_top.map(d => "OTU " + d);
 
-        console.log(`OTU IDs: ${OTU_id}`);
+        // console.log(`OTU IDs: ${OTU_id}`);
 
         // Retrieve the top 10 labels for the plot
         var labels = samples.otu_labels.slice(0, 10);
 
-        console.log(`Sample Values: ${samplevalues}`);
-        console.log(`ID Values: ${OTU_top}`);
+        // console.log(`Sample Values: ${samplevalues}`);
+        // console.log(`ID Values: ${OTU_top}`);
 
         // Create a trace object for the plot
         var trace = {
@@ -62,7 +62,7 @@ function getPlot(id) {
         // Create the bar plot
         Plotly.newPlot("bar", data, layout);
 
-        console.log(`ID: ${samples.otu_ids}`);
+        // console.log(`ID: ${samples.otu_ids}`);
 
         // Create a trace object for the bubble chart
         var trace1 = {
@@ -113,14 +113,14 @@ function getPlot(id) {
         width: 700,
         height: 600,
         margin: { t: 20, b: 40, l: 100, r: 100 }
-    };
+    }
     Plotly.newPlot("gauge", data_g, layout_g);
     });
 }
 //  Create the function to retrieve the data
 function getInfo(id) {
     // read the json file
-    d3.json("data/samples.json").then((data) => {
+    d3.json("Data/samples.json").then((data) => {
 
        // Retrieve the metadata info showing the demographics
        var metadata = data.metadata; 
@@ -129,17 +129,23 @@ function getInfo(id) {
        // Filter meta data info by id
        var result = metadata.filter(meta => meta.id.toString() === id)[0];
 
-       // Select demographic info
+       // Select demographic panel for inserting data
        var demographicInfo = d3.select("#sample-metadata");
 
        // Clear demographic info before getting new id info on each run
        demographicInfo.html("");
 
        // Retrieve the data for the id and add info to the panel
-       Object.defineProperties(result).forEach((key) => {
+       Object.entries(result).forEach((key) => {
            demographicInfo.append("h5").text(key[0].toUpperCase() + ": " + key[1] + "\n");
        });
     });
+}
+
+// Create the function for the change event
+function optionChanged(id) {
+    getPlot(id);
+    getInfo(id);
 }
 
 // Create the function for initial data rendering
@@ -148,9 +154,9 @@ function init() {
     var dropdown = d3.select("#selDataset");
 
     // Read the data
-    d3.json("data/samples.json").then((data) => {
-        console.log(data);
-    });
+    d3.json("Data/samples.json").then((data) => {
+        console.log(data)
+    
 
     // Transfer the id data to the dropdown menu
     data.names.forEach(function(name) {
@@ -160,6 +166,7 @@ function init() {
     // Display the data and plots to the page
     getPlot(data.names[0]);
     getInfo(data.names[0]);
+    });
 }
 
 init();

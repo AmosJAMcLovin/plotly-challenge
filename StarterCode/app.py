@@ -1,6 +1,8 @@
 import os
+
 import pandas as pd 
 import numpy as np
+
 import sqlalchemy
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
@@ -24,8 +26,8 @@ Base = automap_base()
 Base.prepare(db.engine, reflect=True)
 
 # Save references to each table
-Samples_Metadata = Base.classes.Samples_Metadata
-Samples = Base.classes.Samples_Metadata
+Samples_Metadata = Base.classes.sample_metadata
+Samples = Base.classes.samples
 
 @app.route("/")
 def index():
@@ -53,7 +55,7 @@ def sample_metadata(sample):
         Samples_Metadata.AGE,
         Samples_Metadata.LOCATION,
         Samples_Metadata.BBTYPE,
-        Samples_Metadata.WFREQ,
+        Samples_Metadata.WFREQ
     ]
 
     results = db.session.query(*sel).filter(Samples_Metadata.sample == sample).all()
