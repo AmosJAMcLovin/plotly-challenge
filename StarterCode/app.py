@@ -1,5 +1,4 @@
 import os
-
 import pandas as pd
 import numpy as np
 
@@ -21,21 +20,25 @@ app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///db/bellybutton.sqlite"
 db = SQLAlchemy(app)
 
-# reflect an existing database into a new model
+# Reflect an existing database into a new model
 Base = automap_base()
-# reflect the tables
+# Reflect the tables
 Base.prepare(db.engine, reflect=True)
 
 # Save references to each table
 Samples_Metadata = Base.classes.sample_metadata
 Samples = Base.classes.samples
 
+#########################
+# Flask Routes
+#########################
 
 @app.route("/")
 def index():
     """Return the homepage."""
     return render_template("index.html")
 
+# Route to sample names
 @app.route("/names")
 def names():
     """Return a list of sample names."""
@@ -47,7 +50,7 @@ def names():
     # Return a list of the column names (sample names)
     return jsonify(list(df.columns)[2:])
 
-
+# Route to any given sample in the metadata
 @app.route("/metadata/<sample>")
 def sample_metadata(sample):
     """Return the MetaData for a given sample."""
@@ -63,7 +66,7 @@ def sample_metadata(sample):
 
     results = db.session.query(*sel).filter(Samples_Metadata.sample == sample).all()
 
-    # Create a dictionary entry for each row of metadata information
+    # Create a dictionary displaying the metadata information
     sample_metadata = {}
     for result in results:
         sample_metadata["sample"] = result[0]
@@ -77,15 +80,14 @@ def sample_metadata(sample):
     print(sample_metadata)
     return jsonify(sample_metadata)
 
-
+# Route to sample values
 @app.route("/samples/<sample>")
 def samples(sample):
     """Return `otu_ids`, `otu_labels`,and `sample_values`."""
     stmt = db.session.query(Samples).statement
     df = pd.read_sql_query(stmt, db.session.bind)
 
-    # Filter the data based on the sample number and
-    # only keep rows with values above 1
+    # Filter the data based on sample number and only show rows with a value above 1
     sample_data = df.loc[df[sample] > 1, ["otu_id", "otu_label", sample]]
 
     # Sort by sample
