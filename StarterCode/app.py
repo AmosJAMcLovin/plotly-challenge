@@ -1,3 +1,4 @@
+# Dependencies
 import os
 
 import pandas as pd 
@@ -55,7 +56,7 @@ def sample_metadata(sample):
         Samples_Metadata.AGE,
         Samples_Metadata.LOCATION,
         Samples_Metadata.BBTYPE,
-        Samples_Metadata.WFREQ
+        Samples_Metadata.WFREQ,
     ]
 
     results = db.session.query(*sel).filter(Samples_Metadata.sample == sample).all()
@@ -84,7 +85,7 @@ def samples(sample):
     sample_data = df.loc[df[sample] > 1, ["otu_id", "otu_label", sample]]
 
     # Sort by sample
-    sample_data.sort_values(by=sample, ascending=False, inplace=True)
+    #sample_data.sort_values(by=sample, ascending=False, inplace=True)
 
     # Format the data to send as json
     data = {
