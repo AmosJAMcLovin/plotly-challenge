@@ -27,9 +27,9 @@ function buildCharts(sample) {
         const sample_values = data.sample_values;
         // Build a bar chart
         let bubbleLayout = {
-            margin { t: 0},
-            hovermode: "closests",
-            xaxis: {title: "OTU ID"}
+          margin: { t: 0 },
+          hovermode: "closests",
+          xaxis: {title: "OTU ID"}
         }
 
         let bubbleData = [
@@ -72,7 +72,7 @@ function init() {
     var selector = d3.select("#selDataset");
 
     // Use the list of sample names to display multiple options
-    d3.json("/names").then((sampleNames) => {
+    d3.json(`/names/${samples}`).then((sampleNames) => {
         sampleNames.forEach((sample) => {
             selector
               .append("option")
