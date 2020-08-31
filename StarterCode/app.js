@@ -129,7 +129,7 @@ let url = 'StarterCode/Data/samples.json'
 
         // Create the Gauge plot
         Plotly.newPlot("gauge", dataGauge, layout_g);
-      })
+})
 
       // read the json file to get data
 d3.json(url).then(function(data){
