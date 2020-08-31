@@ -24,14 +24,12 @@ let url = 'StarterCode/Data/samples.json'
             x: values,
             y: ids,
             text: labels,
-            marker: {
-              color: 'rgb(142,124,195)'},
             type:"bar",
             orientation: "h",
-        };
+        }
   
         // Connect trace data 
-        let plotData = [trace];
+        let plotData = [trace]
 
         // Create the bar plot
         Plotly.newplot('bar',plotData)
@@ -96,17 +94,17 @@ let url = 'StarterCode/Data/samples.json'
   
         let dataGauge = [
           {
-            domain: { x: [0, 1], y: [0, 1] },
             value: demographicsWfreq,
             title: { text: "Weekly Washing Frequency", font: { size: 24 } },
             type: "indicator",
             mode: "gauge+number",
-            gauge: { axis: { range: [null, 9], tickwidth: 1, tickcolor: "blue" },
-            bar: { color: "#404040"},
-            bgcolor: "white",
-            borderwidth: 2,
-            bordercolor: "#404040",
-            steps: [
+            gauge: { 
+              axis: { range: [null, 9], tickwidth: 1, tickcolor: "blue" },
+              bar: { color: "#404040"},
+              bgcolor: "white",
+              borderwidth: 2,
+              bordercolor: "#404040",
+              steps: [
                 { range: [0, 1], color: "#cfc357" },
                 { range: [1, 2], color: "#dfe0a4" },
                 { range: [2, 3], color: "#7aebdf" },
@@ -116,7 +114,7 @@ let url = 'StarterCode/Data/samples.json'
                 { range: [6, 7], color: "#3CB371" },
                 { range: [7, 8], color: "#2E8B57" },
                 { range: [8, 9], color: "#006400" },
-               ]
+               ],
             }             
           } 
         ];
