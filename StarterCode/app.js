@@ -28,7 +28,7 @@ let url = 'StarterCode/Data/samples.json'
               color: 'rgb(142,124,195)'},
             type:"bar",
             orientation: "h",
-        }
+        };
   
         // Connect trace data 
         let plotData = [trace];
