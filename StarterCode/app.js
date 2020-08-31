@@ -114,7 +114,7 @@ d3.json(url).then(function(data){
               { range: [6, 7], color: "#3CB371" },
               { range: [7, 8], color: "#2E8B57" },
               { range: [8, 9], color: "#006400" },
-              ],
+            ],
           }             
         } 
       ];
@@ -131,7 +131,7 @@ d3.json(url).then(function(data){
       Plotly.newPlot("gauge", dataGauge, layout_g);
   })
 
-      // read the json file to get data
+// read the json file to get data
 d3.json(url).then(function(data){
 
     let input = d3.select('#selDataset')
@@ -217,29 +217,29 @@ d3.json(url).then(function(data){
         // Static Gauge
         let dataGauge = [
             {
-              domain: { x: [0, 1], y: [0, 1] },
-              value: demographicsWfreq,
-              title: { text: "Weekly Washing Frequency", font: { size: 24 } },
-              type: "indicator",
-            
-              mode: "gauge+number",
-              gauge: { axis: { range: [null, 9], tickwidth: 1, tickcolor: "blue" },
-              bar: { color: "#404040"},
-              bgcolor: "white",
-              borderwidth: 2,
-              bordercolor: "#404040",
-              steps: [
-                  { range: [0, 1], color: "#cfc357" },
-                  { range: [1, 2], color: "#dfe0a4" },
-                  { range: [2, 3], color: "#7aebdf" },
-                  { range: [3, 4], color: "#8dd6d9" },
-                  { range: [4, 5], color: "#00FA9A" },
-                  { range: [5, 6], color: "#00FF7F" },
-                  { range: [6, 7], color: "#3CB371" },
-                  { range: [7, 8], color: "#2E8B57" },
-                  { range: [8, 9], color: "#006400" },
-                 ]
-              }             
+            domain: { x: [0, 1], y: [0, 1] },
+            value: demographicsWfreq,
+            title: { text: "Weekly Washing Frequency", font: { size: 24 } },
+            type: "indicator",
+            mode: "gauge+number",
+            gauge: { 
+                axis: { range: [null, 9], tickwidth: 1, tickcolor: "blue" },
+                bar: { color: "#404040"},
+                bgcolor: "white",
+                borderwidth: 2,
+                bordercolor: "#404040",
+                steps: [
+                { range: [0, 1], color: "#cfc357" },
+                { range: [1, 2], color: "#dfe0a4" },
+                { range: [2, 3], color: "#7aebdf" },
+                { range: [3, 4], color: "#8dd6d9" },
+                { range: [4, 5], color: "#00FA9A" },
+                { range: [5, 6], color: "#00FF7F" },
+                { range: [6, 7], color: "#3CB371" },
+                { range: [7, 8], color: "#2E8B57" },
+                { range: [8, 9], color: "#006400" },
+                ],
+            }             
             } 
           ];
           
@@ -252,6 +252,6 @@ d3.json(url).then(function(data){
           };
   
           // Create the Gauge plot
-          Plotly.newPlot("gauge", dataGauge, layout_g);
+          Plotly.newPlot("gauge", dataGauge, layout);
     })
 })
