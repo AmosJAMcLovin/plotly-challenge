@@ -37,7 +37,7 @@ d3.json(url).then(function(data){
     // Static bubble chart
 
     let bubbleValues = data.samples[0].sample_values
-    let bubbleIdss = data.samples[0].otu_ids
+    let bubbleIds = data.samples[0].otu_ids
     let bubbleLabels = data.samples[0].otu_labels
 
     // Create trace for the plot
