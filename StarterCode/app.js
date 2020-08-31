@@ -55,9 +55,13 @@ d3.json(url).then(function(data){
         
       // Connect trace data
       var dataBubble = [traceBubble];
+
+    let layoutBubble = {
+      xaxis: { title: "OTU ID"}
+    };  
         
       // Create the bubble plot
-      Plotly.newPlot('bubble', dataBubble);
+      Plotly.newPlot('bubble', dataBubble, layoutBubble);
   
       // Static Demographics
       let demographicsID = data.metadata[0].id
@@ -70,32 +74,32 @@ d3.json(url).then(function(data){
       let table = d3.select('tbody')
       let row = table.append('tr')
       let cell = row.append('td')
-      cell.text(`Id: ${demographicsID}`)
+      cell.text(`id: ${demographicsID}`)
       let row2 = table.append('tr')
       let cell2 = row2.append('td')
-      cell2.text(`Ethnicity: ${demographicsEthnicity}`)
+      cell2.text(`ethnicity: ${demographicsEthnicity}`)
       let row3 = table.append('tr')
       let cell3 = row3.append('td')
-      cell3.text(`Gender: ${demographicsGender}`)
+      cell3.text(`gender: ${demographicsGender}`)
       let row4 = table.append('tr')
       let cell4 = row4.append('td')
-      cell4.text(`Age: ${demographicsAge}`)
+      cell4.text(`age: ${demographicsAge}`)
       let row5 = table.append('tr')
       let cell5 = row5.append('td')
-      cell5.text(`Location: ${demographicsLocation}`)
+      cell5.text(`location: ${demographicsLocation}`)
       let row6 = table.append('tr')
       let cell6 = row6.append('td')
-      cell6.text(`BB Type: ${demographicsBBtype}`)
+      cell6.text(`bbtype: ${demographicsBBtype}`)
       let row7 = table.append('tr')
       let cell7 = row7.append('td')
-      cell7.text('Washing Freq: ${demographicsWfreq}')
+      cell7.text('wfreq: ${demographicsWfreq}')
 
       // Static Gauge
   
       let dataGauge = [
         {
           value: demographicsWfreq,
-          title: { text: "Weekly Washing Frequency", font: { size: 24 } },
+          title: { text: "Belly Button Washing Frequency: Scrubs per week", font: { size: 24 } },
           type: "indicator",
           mode: "gauge+number",
           gauge: { 
@@ -119,7 +123,7 @@ d3.json(url).then(function(data){
         } 
       ];
         
-      let layout = {
+      let layoutGauge = {
         width: 700, 
         height: 600, 
         margin: { t: 20, b: 40, l:100, r:100 }, 
@@ -128,7 +132,7 @@ d3.json(url).then(function(data){
       };
 
       // Create the Gauge plot
-      Plotly.newPlot("gauge", dataGauge, layout_g);
+      Plotly.newPlot("gauge", dataGauge, layoutGauge);
   })
 
 // read the json file to get data
@@ -176,9 +180,13 @@ d3.json(url).then(function(data){
 
         // Connect trace data
         var dataBubble2 = [traceBubble2];
+        
+        let layoutBubble2 = {
+          xaxis: { title: "OTU ID"}
+        };  
 
         // Create the dynamic Bubble Chart
-        Plotly.newPlot('bubble', dataBubble2);
+        Plotly.newPlot('bubble', dataBubble2, layoutBubble2);
 
         // Dynamic Demographics
 
@@ -194,32 +202,32 @@ d3.json(url).then(function(data){
         table.html('')
         let row = table.append('tr')
         let cell = row.append('td')
-        cell.text(`Id: ${demographicsID}`)
+        cell.text(`id: ${demographicsID}`)
         let row2 = table.append('tr')
         let cell2 = row2.append('td')
-        cell2.text(`Ethnicity: ${demographicsEthnicity}`)
+        cell2.text(`ethnicity: ${demographicsEthnicity}`)
         let row3 = table.append('tr')
         let cell3 = row3.append('td')
-        cell3.text(`Gender: ${demographicsGender}`)
+        cell3.text(`gender: ${demographicsGender}`)
         let row4 = table.append('tr')
         let cell4 = row4.append('td')
-        cell4.text(`Age: ${demographicsAge}`)
+        cell4.text(`age: ${demographicsAge}`)
         let row5 = table.append('tr')
         let cell5 = row5.append('td')
-        cell5.text(`Location: ${demographicsLocation}`)
+        cell5.text(`location: ${demographicsLocation}`)
         let row6 = table.append('tr')
         let cell6 = row6.append('td')
-        cell6.text(`BB Type: ${demographicsBBtype}`)
+        cell6.text(`bbtype: ${demographicsBBtype}`)
         let row7 = table.append('tr')
         let cell7 = row7.append('td')
-        cell7.text('Washing Freq: ${demographicsWfreq}')
+        cell7.text('wfreq: ${demographicsWfreq}')
 
         // Static Gauge
         let dataGauge = [
             {
             domain: { x: [0, 1], y: [0, 1] },
             value: demographicsWfreq,
-            title: { text: "Weekly Washing Frequency", font: { size: 24 } },
+            title: { text: "Belly Button Washing Frequency: Scrubs per week", font: { size: 24 } },
             type: "indicator",
             mode: "gauge+number",
             gauge: { 
@@ -243,7 +251,7 @@ d3.json(url).then(function(data){
             } 
           ];
           
-          let layout = { 
+          let layoutGauge = { 
             width: 700, 
             height: 600, 
             margin: { t: 20, b: 40, l:100, r:100 }, 
@@ -252,6 +260,6 @@ d3.json(url).then(function(data){
           };
   
           // Create the Gauge plot
-          Plotly.newPlot("gauge", dataGauge, layout);
+          Plotly.newPlot("gauge", dataGauge, layoutGauge);
     })
 })
