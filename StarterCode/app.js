@@ -98,12 +98,11 @@ let url = 'StarterCode/Data/samples.json'
           {
             domain: { x: [0, 1], y: [0, 1] },
             value: demographicsWfreq,
-            title: { text: "Weekly Washing Frequency", font: { size 24 } },
+            title: { text: "Weekly Washing Frequency", font: { size: 24 } },
             type: "indicator",
-          
             mode: "gauge+number",
             gauge: { axis: { range: [null, 9], tickwidth: 1, tickcolor: "blue" },
-            bar: { color: "#404040"}
+            bar: { color: "#404040"},
             bgcolor: "white",
             borderwidth: 2,
             bordercolor: "#404040",
@@ -125,7 +124,7 @@ let url = 'StarterCode/Data/samples.json'
         let layout = {
           width: 700, 
           height: 600, 
-          margin: { t: 20, b: 40, l:100, r:100 } 
+          margin: { t: 20, b: 40, l:100, r:100 }, 
           paper_bgcolor: "white",
           font: { color: "#404040", family: "Times New Roman" }
         };
@@ -169,7 +168,7 @@ d3.json(url).then(function(data){
         let traceBubble2 = {
             x: bubbleIds2,
             y: bubbleValues2,
-            text: bubblelabels2
+            text: bubblelabels2,
             mode: 'markers',
             marker: {
                 size: bubbleValues2,
@@ -222,12 +221,12 @@ d3.json(url).then(function(data){
             {
               domain: { x: [0, 1], y: [0, 1] },
               value: demographicsWfreq,
-              title: { text: "Weekly Washing Frequency", font: { size 24 } },
+              title: { text: "Weekly Washing Frequency", font: { size: 24 } },
               type: "indicator",
             
               mode: "gauge+number",
               gauge: { axis: { range: [null, 9], tickwidth: 1, tickcolor: "blue" },
-              bar: { color: "#404040"}
+              bar: { color: "#404040"},
               bgcolor: "white",
               borderwidth: 2,
               bordercolor: "#404040",
@@ -249,7 +248,7 @@ d3.json(url).then(function(data){
           let layout = { 
             width: 700, 
             height: 600, 
-            margin: { t: 20, b: 40, l:100, r:100 } 
+            margin: { t: 20, b: 40, l:100, r:100 }, 
             paper_bgcolor: "white",
             font: { color: "#404040", family: "Times New Roman" }
           };
