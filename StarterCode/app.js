@@ -166,7 +166,7 @@ d3.json(url).then(function(data){
         let traceBubble2 = {
             x: bubbleIds2,
             y: bubbleValues2,
-            text: bubblelabels2,
+            text: bubbleLabels2,
             mode: 'markers',
             marker: {
                 size: bubbleValues2,
