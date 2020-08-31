@@ -1,38 +1,28 @@
-// Creating function for Data plotting (Bar, gauge, bubble)
-function getPlot(id) {
+
+let url = 'StarterCode/Data/samples.json'
     // getting data from the json file
-    d3.json("Data/samples.json").then((data)=> {
+    d3.json(url).then(function(data){
         console.log(data)
+
+        let names = data.names
+
+        names.forEach(d=>{
+            d3.select('#selDataset').append('option').text(d).property('value',d)
+        })
   
-        var wfreq = data.metadata.map(d => d.wfreq)
-        console.log(`Washing Freq: ${wfreq}`)
-        
-        // filter sample values by id 
-        var samples = data.samples.filter(s => s.id.toString() === id)[0];
-        
-        console.log(samples);
-  
-        // Getting the top 10 
-        var samplevalues = samples.sample_values.slice(0, 10).reverse();
+        // Getting the top 10 sample values
+        let values = data.samples[0].sample_values.slice(0, 10).reverse()
   
         // get only top 10 otu ids for the plot OTU and reversing it. 
-        var OTU_top = (samples.otu_ids.slice(0, 10)).reverse();
+        let ids = data.samples[0].otu_ids.slice(0, 10).map(d => `OTU ${d}`)
         
-        // get the otu id's to the desired form for the plot
-        var OTU_id = OTU_top.map(d => "OTU " + d)
-  
-      //   console.log(`OTU IDS: ${OTU_id}`)
-  
-  
-        // get the top 10 labels for the plot
-        var labels = samples.otu_labels.slice(0, 10);
-  
-      //   console.log(`Sample Values: ${samplevalues}`)
-      //   console.log(`Id Values: ${OTU_top}`)
-        // create trace variable for the plot
-        var trace = {
-            x: samplevalues,
-            y: OTU_id,
+        // Get the top 10 labels for the plot
+        let labels = data.samples[0].otu_labels.slice(0,10)
+   
+        // create trace for the plot
+        let trace = {
+            x: values,
+            y: ids,
             text: labels,
             marker: {
               color: 'rgb(142,124,195)'},
@@ -40,133 +30,231 @@ function getPlot(id) {
             orientation: "h",
         };
   
-        // create data variable
-        var data = [trace];
-  
-        // create layout variable to set plots layout
-        var layout = {
-            title: "Top 10 OTU",
-            yaxis:{
-                tickmode:"linear",
-            },
-            margin: {
-                l: 100,
-                r: 100,
-                t: 100,
-                b: 30
-            }
-        };
-  
-        // create the bar plot
-        Plotly.newPlot("bar", data, layout);
-  
-        //console.log(`ID: ${samples.otu_ids}`)
+        // Connect trace data 
+        let plotData = [trace];
+
+        // Create the bar plot
+        Plotly.newplot('bar',plotData)
       
-        // The bubble chart
-        var trace1 = {
-            x: samples.otu_ids,
-            y: samples.sample_values,
+        // Static bubble chart
+
+        let bubbleValues = data.samples[0].sample_values
+        let bubbleIdss = data.samples[0].otu_ids
+        let bubbleLabels = data.samples[0].otu_labels
+
+        // Create trace for the plot
+        let traceBubble = {
+            x: bubbleIds,
+            y: bubbleValues,
             mode: "markers",
             marker: {
-                size: samples.sample_values,
-                color: samples.otu_ids
+                size: bubbleValues,
+                color: bubbleIds
             },
-            text: samples.otu_labels
+            text: bubbleLabels
   
-        };
+        }
+        
+        // Connect trace data
+        var dataBubble = [traceBubble];
+        
+        // Create the bubble plot
+        Plotly.newPlot('bubble', dataBubble);
   
-        // set the layout for the bubble plot
-        var layout_b = {
-            xaxis:{title: "OTU ID"},
-            height: 600,
-            width: 1000
-        };
+        // Static Demographics
+        let demographicsID = data.metadata[0].id
+        let demographicsEthnicity = data.metadata[0].ethnicity
+        let demographicsGender = data.metadata[0].gender
+        let demographicsAge = data.metadata[0].age
+        let demographicsLocation = data.metadata[0].location
+        let demographicsBBtype = data.metadata[0].bbtype
+        let demographicsWfreq = data.metadata[0].wfreq
+        let table = d3.select('tbody')
+        let row = table.append('tr')
+        let cell = row.append('td')
+        cell.text(`Id: ${demographicsID}`)
+        let row2 = table.append('tr')
+        let cell2 = row2.append('td')
+        cell2.text(`Ethnicity: ${demographicsEthnicity}`)
+        let row3 = table.append('tr')
+        let cell3 = row3.append('td')
+        cell3.text(`Gender: ${demographicsGender}`)
+        let row4 = table.append('tr')
+        let cell4 = row4.append('td')
+        cell4.text(`Age: ${demographicAge}`)
+        let row5 = table.append('tr')
+        let cell5 = row5.append('td')
+        cell5.text(`Location: ${demographicsLocation}`)
+        let row6 = table.append('tr')
+        let cell6 = row6.append('td')
+        cell6.text(`BB Type: ${demographicsBBtype}`)
+        let row7 = table.append('tr')
+        let cell7 = row7.append('td')
+        cell7.text('Washing Freq: ${demographicsWfreq}')
+
+        // Static Gauge
   
-        // creating data variable 
-        var data1 = [trace1];
-  
-        // create the bubble plot
-        Plotly.newPlot("bubble", data1, layout_b); 
-  
-        // The guage chart
-  
-        var data_g = [
+        let dataGauge = [
           {
-          domain: { x: [0, 1], y: [0, 1] },
-          value: parseFloat(wfreq),
-          title: { text: `Weekly Washing Frequency ` },
-          type: "indicator",
+            domain: { x: [0, 1], y: [0, 1] },
+            value: demographicsWfreq,
+            title: { text: "Weekly Washing Frequency", font: { size 24 } },
+            type: "indicator",
           
-          mode: "gauge+number",
-          gauge: { axis: { range: [null, 9] },
-                   steps: [
-                    { range: [0, 2], color: "yellow" },
-                    { range: [2, 4], color: "cyan" },
-                    { range: [4, 6], color: "teal" },
-                    { range: [6, 8], color: "lime" },
-                    { range: [8, 9], color: "green" },
-                  ]}
-              
-          }
+            mode: "gauge+number",
+            gauge: { axis: { range: [null, 9], tickwidth: 1, tickcolor: "blue" },
+            bar: { color: "#404040"}
+            bgcolor: "white",
+            borderwidth: 2,
+            bordercolor: "#404040",
+            steps: [
+                { range: [0, 1], color: "#cfc357" },
+                { range: [1, 2], color: "#dfe0a4" },
+                { range: [2, 3], color: "#7aebdf" },
+                { range: [3, 4], color: "#8dd6d9" },
+                { range: [4, 5], color: "#00FA9A" },
+                { range: [5, 6], color: "#00FF7F" },
+                { range: [6, 7], color: "#3CB371" },
+                { range: [7, 8], color: "#2E8B57" },
+                { range: [8, 9], color: "#006400" },
+               ]
+            }             
+          } 
         ];
-        var layout_g = { 
+        
+        let layout = {
+          width: 700, 
+          height: 600, 
+          margin: { t: 20, b: 40, l:100, r:100 } 
+          paper_bgcolor: "white",
+          font: { color: "#404040", family: "Times New Roman" }
+        };
+
+        // Create the Gauge plot
+        Plotly.newPlot("gauge", dataGauge, layout_g);
+      })
+
+      // read the json file to get data
+d3.json(url).then(function(data){
+
+    let input = d3.select('#selDataset')
+    input.on('change',function(){
+
+        // Dynamic Bar Chart
+        let newText = d3.event.target.value;
+        let values2 = data.samples.filter(d=> d.id == newText)[0].sample_values.slice(0,10).reverse()
+        let ids2 = data.samples.filter(d=> d.id == newText)[0].otu_ids.slice(0,10).map(d => `OTU ${d}`)
+        let labels2 = data.samples.filter(d=> d.id == newText)[0].otu_labels.slice(0,10)
+
+        // Create trace for the plot
+        let trace2 = {
+            x: values2,
+            y: ids2,
+            type: 'bar',
+            text: labels2,
+            orientation: 'h'
+        }
+
+        // Connect trace data
+        let plotData2 = [trace2]
+
+        // Create the dynamic bar chart
+        Plotly.newPlot('bar', plotData2)
+
+        // Dynamic Bubble Chart
+        let bubbleValues2 = data.samples.filter(d=> d.id == newText)[0].sample_values
+        let bubbleIds2 = data.samples.filter(d=> d.id == newText)[0].otu_ids
+        let bubbleLabels2 = data.samples.filter(d=> d.id == newText)[0].otu_labels
+
+        let traceBubble2 = {
+            x: bubbleIds2,
+            y: bubbleValues2,
+            text: bubblelabels2
+            mode: 'markers',
+            marker: {
+                size: bubbleValues2,
+                color: bubbleIds2
+            }
+        }
+
+        // Connect trace data
+        var dataBubble2 = [traceBubble2];
+
+        // Create the dynamic Bubble Chart
+        Plotly.newPlot('bubble', dataBubble2);
+
+        // Dynamic Demographics
+
+        let demographicsID = data.metadata.filter(d=> d.id == newText)[0].id
+        let demographicsEthnicity = data.metadata.filter(d=> d.id == newText)[0].ethnicity
+        let demographicsGender = data.metadata.filter(d=> d.id == newText)[0].gender
+        let demographicsAge = data.metadata.filter(d=> d.id == newText)[0].age
+        let demographicsLocation = data.metadata.filter(d=> d.id == newText)[0].location
+        let demographicsBBtype = data.metadata.filter(d=> d.id == newText)[0].bbtype
+        let demographicsWfreq = data.metadata.filter(d=> d.id == newText)[0].wfreq
+        let table = d3.select('tbody')
+
+        table.html('')
+        let row = table.append('tr')
+        let cell = row.append('td')
+        cell.text(`Id: ${demographicsID}`)
+        let row2 = table.append('tr')
+        let cell2 = row2.append('td')
+        cell2.text(`Ethnicity: ${demographicsEthnicity}`)
+        let row3 = table.append('tr')
+        let cell3 = row3.append('td')
+        cell3.text(`Gender: ${demographicsGender}`)
+        let row4 = table.append('tr')
+        let cell4 = row4.append('td')
+        cell4.text(`Age: ${demographicAge}`)
+        let row5 = table.append('tr')
+        let cell5 = row5.append('td')
+        cell5.text(`Location: ${demographicsLocation}`)
+        let row6 = table.append('tr')
+        let cell6 = row6.append('td')
+        cell6.text(`BB Type: ${demographicsBBtype}`)
+        let row7 = table.append('tr')
+        let cell7 = row7.append('td')
+        cell7.text('Washing Freq: ${demographicsWfreq}')
+
+        // Static Gauge
+        let dataGauge = [
+            {
+              domain: { x: [0, 1], y: [0, 1] },
+              value: demographicsWfreq,
+              title: { text: "Weekly Washing Frequency", font: { size 24 } },
+              type: "indicator",
+            
+              mode: "gauge+number",
+              gauge: { axis: { range: [null, 9], tickwidth: 1, tickcolor: "blue" },
+              bar: { color: "#404040"}
+              bgcolor: "white",
+              borderwidth: 2,
+              bordercolor: "#404040",
+              steps: [
+                  { range: [0, 1], color: "#cfc357" },
+                  { range: [1, 2], color: "#dfe0a4" },
+                  { range: [2, 3], color: "#7aebdf" },
+                  { range: [3, 4], color: "#8dd6d9" },
+                  { range: [4, 5], color: "#00FA9A" },
+                  { range: [5, 6], color: "#00FF7F" },
+                  { range: [6, 7], color: "#3CB371" },
+                  { range: [7, 8], color: "#2E8B57" },
+                  { range: [8, 9], color: "#006400" },
+                 ]
+              }             
+            } 
+          ];
+          
+          let layout = { 
             width: 700, 
             height: 600, 
             margin: { t: 20, b: 40, l:100, r:100 } 
+            paper_bgcolor: "white",
+            font: { color: "#404040", family: "Times New Roman" }
           };
-        Plotly.newPlot("gauge", data_g, layout_g);
-      });
-  }  
-// create the function to get the necessary data
-function getInfo(id) {
-    // read the json file to get data
-    d3.json("Data/samples.json").then((data)=> {
-        
-        // get the metadata info for the demographic panel
-        var metadata = data.metadata;
-
-        console.log(metadata)
-
-        // filter meta data info by id
-        var result = metadata.filter(meta => meta.id.toString() === id)[0];
-
-        // select demographic panel to put data
-        var demographicInfo = d3.select("#sample-metadata");
-        
-        // empty the demographic info panel each time before getting new id info
-        demographicInfo.html("");
-
-        // grab the necessary demographic data data for the id and append the info to the panel
-        Object.entries(result).forEach((key) => {   
-                demographicInfo.append("h5").text(key[0].toUpperCase() + ": " + key[1] + "\n");    
-        });
-    });
-}
-
-// create the function for the change event
-function optionChanged(id) {
-    getPlot(id);
-    getInfo(id);
-}
-
-// create the function for the initial data rendering
-function init() {
-    // select dropdown menu 
-    var dropdown = d3.select("#selDataset");
-
-    // read the data 
-    d3.json("Data/samples.json").then((data)=> {
-        console.log(data)
-
-        // get the id data to the dropdwown menu
-        data.names.forEach(function(name) {
-            dropdown.append("option").text(name).property("value");
-        });
-
-        // call the functions to display the data and the plots to the page
-        getPlot(data.names[0]);
-        getInfo(data.names[0]);
-    });
-}
-
-init();
+  
+          // Create the Gauge plot
+          Plotly.newPlot("gauge", dataGauge, layout_g);
+    })
+})
