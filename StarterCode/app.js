@@ -32,7 +32,7 @@ d3.json(url).then(function(data){
     let plotData = [trace]
 
     // Create the bar plot
-    Plotly.newplot('bar',plotData)
+    Plotly.newPlot('bar',plotData)
       
     // Static bubble chart
 
@@ -79,7 +79,7 @@ d3.json(url).then(function(data){
       cell3.text(`Gender: ${demographicsGender}`)
       let row4 = table.append('tr')
       let cell4 = row4.append('td')
-      cell4.text(`Age: ${demographicAge}`)
+      cell4.text(`Age: ${demographicsAge}`)
       let row5 = table.append('tr')
       let cell5 = row5.append('td')
       cell5.text(`Location: ${demographicsLocation}`)
@@ -203,7 +203,7 @@ d3.json(url).then(function(data){
         cell3.text(`Gender: ${demographicsGender}`)
         let row4 = table.append('tr')
         let cell4 = row4.append('td')
-        cell4.text(`Age: ${demographicAge}`)
+        cell4.text(`Age: ${demographicsAge}`)
         let row5 = table.append('tr')
         let cell5 = row5.append('td')
         cell5.text(`Location: ${demographicsLocation}`)
